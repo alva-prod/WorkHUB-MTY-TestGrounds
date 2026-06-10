@@ -2,6 +2,10 @@
 
 ## Desarrollo local
 
+![Tests](https://github.com/<your-org>/<your-repo>/actions/workflows/test.yml/badge.svg)
+
+
+
 Por defecto el dev server corre en **HTTPS** (necesario para entrar desde el celular en la red local: el micrófono y el lector QR requieren contexto seguro).
 
 ```bash
