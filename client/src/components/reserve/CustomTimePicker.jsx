@@ -1,23 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-
-function parseTime(value) {
-  if (!value) return { h: 9, m: 0 }
-  const [h, m] = String(value).split(':').map(Number)
-  return {
-    h: Number.isFinite(h) ? h : 9,
-    m: Number.isFinite(m) ? m : 0,
-  }
-}
-
-function format(h, m) {
-  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
-}
-
-function toMinutes(value) {
-  if (!value) return -Infinity
-  const { h, m } = parseTime(value)
-  return h * 60 + m
-}
+import { parseTime, formatTime as format, toMinutes } from '../../utils/timeDate'
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i)
 // Granularidad: cada 5 minutos. Si se necesita exacto se puede escribir al teclear,

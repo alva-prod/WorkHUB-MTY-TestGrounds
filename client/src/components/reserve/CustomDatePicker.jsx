@@ -1,24 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { parseISO, toISO } from '../../utils/timeDate'
 
 const MONTHS = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
 ]
 const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
-
-function parseISO(value) {
-  if (!value) return null
-  const [y, m, d] = String(value).split('-').map(Number)
-  if (!y || !m || !d) return null
-  return new Date(y, m - 1, d)
-}
-
-function toISO(date) {
-  const y = date.getFullYear()
-  const m = String(date.getMonth() + 1).padStart(2, '0')
-  const d = String(date.getDate()).padStart(2, '0')
-  return `${y}-${m}-${d}`
-}
 
 function startOfMonth(date) {
   return new Date(date.getFullYear(), date.getMonth(), 1)

@@ -5,6 +5,7 @@ import { useAuth } from '../../context/useAuth'
 import { getAllEmpleados, getAllReservaciones, getReportes, createEmpleado, deleteEmpleado, getAllEspacios, createEspacio, updateEspacioEstado, getPisos, getRoles, getEventos, createEvento, deleteEvento } from '../../services/reservations'
 import CustomDatePicker from '../../components/reserve/CustomDatePicker'
 import CustomTimePicker from '../../components/reserve/CustomTimePicker'
+import { buildPageList, clampPercent, formatPercent } from '../../utils/adminUtils'
 import './AdminDashboard.css'
 
 const sidebarItems = [
@@ -18,23 +19,6 @@ const sidebarItems = [
 
 // Filas por página en las tablas del panel.
 const ADMIN_PAGE_SIZE = 15
-
-// Lista compacta de páginas con elipsis cuando hay muchas (1 … 4 5 6 … 20).
-function buildPageList(totalPages, current) {
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, i) => i + 1)
-  }
-  const set = new Set([1, totalPages, current, current - 1, current + 1])
-  const sorted = [...set].filter((p) => p >= 1 && p <= totalPages).sort((a, b) => a - b)
-  const out = []
-  let prev = 0
-  for (const p of sorted) {
-    if (p - prev > 1) out.push('…')
-    out.push(p)
-    prev = p
-  }
-  return out
-}
 
 // Footer de paginación reutilizable. Recibe la página actual (ya acotada),
 // el total filtrado y el total real, y notifica cambios vía onPage.
@@ -122,10 +106,6 @@ const loadingStats = emptyStats.map((stat) => ({
   ...stat,
   detail: 'cargando',
 }))
-
-const clampPercent = (value) => Math.min(Math.max(Math.round(Number(value) || 0), 0), 100)
-const formatPercent = (value) => `${clampPercent(value)}%`
-
 
 const PISO_ADMIN_FUNCIONAL_ID = 2
 

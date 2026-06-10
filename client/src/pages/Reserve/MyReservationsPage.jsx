@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
 import { getReservacionesByEmpleado } from '../../services/reservations'
 import { classifyReservation, getStatusStyle } from '../../utils/reservationStatus'
+import { parseLocalDate, formatDate, formatTimeRange as formatTime } from '../../utils/adminUtils'
 
 const FILTERS = [
   { key: 'active', label: 'Activas' },
@@ -10,28 +11,6 @@ const FILTERS = [
   { key: 'past', label: 'Pasadas' },
   { key: 'cancelled', label: 'Canceladas' },
 ]
-
-function parseLocalDate(fecha) {
-  if (!fecha) return null
-  // Tomamos solo YYYY-MM-DD para evitar el desfase de zona horaria
-  // que ocurre cuando MySQL devuelve la fecha como ISO en UTC.
-  const dateOnly = String(fecha).slice(0, 10)
-  const [y, m, d] = dateOnly.split('-').map(Number)
-  return new Date(y, m - 1, d)
-}
-
-function formatDate(dateStr) {
-  const d = parseLocalDate(dateStr)
-  if (!d) return '—'
-  const day = String(d.getDate()).padStart(2, '0')
-  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
-  return `${day}/${months[d.getMonth()]}/${d.getFullYear()}`
-}
-
-function formatTime(start, end) {
-  if (!start || !end) return '—'
-  return `${start.slice(0, 5)} — ${end.slice(0, 5)}`
-}
 
 export default function MyReservationsPage() {
   const { user } = useAuth()
